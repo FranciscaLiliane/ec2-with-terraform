@@ -8,7 +8,7 @@ Este repositório contém scripts e configurações para gerenciar a infraestrut
 - **README.md**: Este arquivo de documentação.
 - **backup-s3.py**: Script Python para fazer backup de dados para o S3.
 - **createEc2.tf**: Configuração Terraform para criar instâncias EC2.
-- **deploy_from_s3_jenkins.sh**: Script para Jenkins buscar um arquivo no S3 e publicar em um container Docker.
+- **jenkins_deploy.xml**: Script xml para Jenkins buscar um arquivo no S3 e publicar em um container Docker.
 - **helloWorld.php**: Arquivo PHP de exemplo.
 - **main.tf**: Arquivo principal do Terraform que configura o provedor AWS.
 - **requirements.sh**: Script para instalar dependências necessárias (como o Docker).
