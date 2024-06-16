@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <description>Deploy hello-world.php from S3 to Docker container apache-server</description>
+  
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <shell>
+      <command>
+        #!/bin/bash
+        
+        # Definindo variáveis
+        BUCKET_NAME="devops-s3"
+        FILE_KEY="hello-world.php"
+        LOCAL_PATH="./hello-world.php"
+        CONTAINER_NAME="apache-server"
+        CONTAINER_PATH="/var/www/html/"
+
+        # Buscando arquivo PHP dentro do S3
+        echo "Baixando o arquivo $FILE_KEY do S3..."
+        aws s3 cp s3://$BUCKET_NAME/$FILE_KEY $LOCAL_PATH
+        
+        # Verificando se o download foi bem sucedido
+        if [ $? -ne 0 ]; then
+          echo "Erro ao baixar o arquivo $FILE_KEY do S3"
+          exit 1
+        fi
+
+        # Copiando o arquivo para dentro do container Docker
+        echo "Copiando o arquivo $FILE_KEY para o container Docker..."
+        docker cp $LOCAL_PATH $CONTAINER_NAME:$CONTAINER_PATH
+
+        # Verificando se a cópia para o container foi bem sucedida
+        if [ $? -ne 0 ]; then
+          echo "Erro ao copiar o arquivo $FILE_KEY para o container Docker"
+          exit 1
+        fi
+
+        # Reiniciando o container Docker
+        echo "Reiniciando o container Docker $CONTAINER_NAME..."
+        docker restart $CONTAINER_NAME
+
+        # Verificando se o reinício do container foi bem sucedido
+        if [ $? -ne 0 ]; then
+          echo "Erro ao reiniciar o container Docker $CONTAINER_NAME"
+          exit 1
+        fi
+
+        echo "Arquivo $FILE_KEY implantado e container $CONTAINER_NAME reiniciado com sucesso."
+      </command>
+      <configuredLocalRules/>
+    </shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
