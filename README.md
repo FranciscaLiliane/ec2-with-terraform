@@ -32,11 +32,8 @@ No diretório do projeto, execute:
 ```sh
 terraform init
 
-```sh
 terraform plan
 
-```sh
 terraform apply
-
-
+```
 Devops Analist: Liliane Silva
