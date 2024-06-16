@@ -35,7 +35,8 @@ terraform init
 ```sh
 terraform plan
 
-```
+```sh
 terraform apply
 
-#by: Liliane Silva
+
+Devops Analist: Liliane Silva
